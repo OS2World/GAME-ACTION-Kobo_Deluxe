@@ -1,0 +1,44 @@
+/////////////////////////////////////////////
+// Ride 4
+// Copyright (C) David Olofson, 2002
+// Thanks to Jeff McClintock for suggesting
+// this synthesis method!
+/////////////////////////////////////////////
+
+w_format target, MONO16, 48000;
+w_blank target, 192000, 0;
+
+procedure cr(f, a)
+{
+	w_env AMPLITUDE, a * .9;
+	w_env FREQUENCY, f * 1.7;
+	w_osc target, SINEMORPH;
+}
+
+w_env MOD2, .8;
+cr 300, .2;
+cr 327, .2;
+cr 344, .2;
+cr 361, .15;
+cr 379, .12;
+cr 391, .1;
+
+w_env FREQUENCY, 6000;
+w_env AMPLITUDE, 0;
+w_filter target, HIGHPASS_12;
+
+w_env AMPLITUDE, 30;
+w_gain target;
+
+w_env AMPLITUDE,
+		.00025,	1.2,
+		.01,	.7,
+		.09,	.3,
+		.9,	.07,
+		1,	.02,
+		2,	0;
+w_gain target;
+
+w_env FREQUENCY, 2000;
+w_env AMPLITUDE, 0;
+w_filter target, HIGHPASS_12;

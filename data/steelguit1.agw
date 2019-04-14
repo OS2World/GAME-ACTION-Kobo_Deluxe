@@ -1,0 +1,79 @@
+/////////////////////////////////////////////
+// Steel Guitar 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 100464, 0;
+
+//string
+w_env AMPLITUDE,
+		0,	.2,
+		.005,	.05,
+		.495,	.03,
+		1,	.01,
+		1.5,	0;
+w_env FREQUENCY, 261.72;
+w_env MOD1, .2;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	.15,
+		.005,	.08,
+		.495,	.04,
+		1,	.015,
+		1.5,	0;
+w_env FREQUENCY, 261.69;
+w_env MOD1, .2;
+w_osc target, PULSE;
+
+w_env AMPLITUDE, 1;
+w_env FREQUENCY,
+		0,	8000,
+		.01,	4000,
+		.5,	2000,
+		.5,	1500,
+		1,	500;
+w_env MOD1, 0;
+w_filter target, LOWPASS_12;
+
+w_env AMPLITUDE, 1;
+w_env FREQUENCY, 3500;
+w_filter target, LOWPASS_12;
+
+w_env AMPLITUDE, 1;
+w_env FREQUENCY, 700;
+w_filter target, HIGHPASS_12;
+
+//body
+w_env AMPLITUDE, 5;
+w_env FREQUENCY, 220;
+w_filter target, PEAK_12;
+w_env AMPLITUDE, 7;
+w_env FREQUENCY, 180;
+w_filter target, PEAK_12;
+
+//attack "thump"
+w_env AMPLITUDE,
+		0,	.3,
+		.003,	.2,
+		.03,	0;
+w_env MOD1,	0,	1,
+		.05,	0;
+w_env FREQUENCY, 0, 130;
+w_osc target, SINE;
+
+//attack harmonics
+w_env AMPLITUDE,
+		0,	.07,
+		.005,	.01,
+		.2,	0;
+w_env MOD1, .2;
+w_env FREQUENCY, 0, 1569.75;
+w_osc target, PULSE;
+w_env AMPLITUDE,
+		0,	.05,
+		.002,	.01,
+		.1,	0;
+w_env FREQUENCY, 0, 1046.5;
+w_osc target, PULSE;

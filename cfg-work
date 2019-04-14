@@ -1,0 +1,7 @@
+#!/bin/sh
+CFLAGS="-O0" CXXFLAGS="-O0" ./configure --enable-epm --enable-debug --enable-alsa --enable-opengl --enable-oss
+echo "====================================================================="
+echo "NOTE: This configuration may crash when closing an OpenGL context."
+echo "      I suspect Electric Fence might have something to do with it."
+echo "      No big deal, but now you know. :-)"
+echo "====================================================================="

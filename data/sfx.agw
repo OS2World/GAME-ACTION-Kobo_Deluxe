@@ -1,0 +1,63 @@
+/////////////////////////////////////////////
+// Sound effect loader script for Kobo Deluxe
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+#include "kobosfx.h"
+
+procedure load_old(pid, name, fmt, amp, loop, randpitch)
+{
+	// Temporary kludge!
+	wid = pid;
+
+	w_format wid, STEREO8, 8000;
+	w_load wid, name, loop;
+
+	// Must use linear! Cubic doesn't like input
+	// with "content" all the way up to Nyqvist.
+	w_convert wid, wid, fmt, 16000, LINEAR;
+
+	w_env AMPLITUDE, amp;
+	w_gain wid;
+	w_enhance wid, 3400, 2;
+	w_gate wid, 1000, .2, .04, 4;
+	w_prepare wid;
+
+	p_param pid, WAVE, wid;
+	p_param pid, DRIVER, POLY;
+	p_param pid, RANDPITCH, randpitch;
+}
+
+procedure load_new(pid, name, randpitch)
+{
+	// Temporary kludge!
+	wid = pid;
+
+	w_load wid, name;
+	p_param pid, WAVE, wid;
+	p_param pid, DRIVER, POLY;
+	p_param pid, RANDPITCH, randpitch;
+}
+
+/*
+ * XKobo sfx by Masanao Izumo
+ */
+//load_old SOUND_BGM, "bgm.raw", STEREO16, 1.5, 1, 0;
+load_old SOUND_BUBBLE, "bubble.raw", MONO16, 1.5, 0, .5;
+load_old SOUND_EXPL, "expl.raw", MONO16, 2.5, 0, 1.5;
+load_old SOUND_EXPL2, "expl2.raw", MONO16, 2, 0, 1;
+load_old SOUND_EXPL3, "expl3.raw", MONO16, 2.5, 0, .6;
+load_old SOUND_ONEUP, "oneup.raw", STEREO16, .8, 0, 0;
+load_old SOUND_SHOT, "shot.raw", MONO16, .8, 0, .3;
+load_old SOUND_METALLIC, "metallic.raw", MONO16, 1.2, 0, .6;
+load_old SOUND_FINE, "fine.raw", STEREO16, 2, 0, 0;
+load_old SOUND_BEAM, "beam.raw", MONO16, 2.5, 0, .3;
+load_old SOUND_RING, "ring.raw", MONO16, 1.5, 0, .2;
+load_old SOUND_ENEMYM, "enemym.raw", STEREO16, 1, 0, .4;
+load_old SOUND_BOMB, "bomb.raw", MONO16, 2.5, 0, 1.5;
+
+/*
+ * New for 0.4-pre7 (David Olofson)
+ */
+load_new SOUND_LAUNCH, "launch.agw", .7;
+load_new SOUND_LAUNCH2, "launch2.agw", .2;

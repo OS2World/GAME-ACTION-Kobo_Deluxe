@@ -1,0 +1,23 @@
+/////////////////////////////////////////////
+// AGW reference sound set for benchmarking
+// Sounds using spectrum based oscillators.
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_load 76, "gmsclock.agw";
+w_load 77, "tububells1.agw";
+w_load 78, "tububells2.agw";
+
+w_load 80, "xylophone1.agw";
+w_load 81, "xylophone2.agw";
+w_load 82, "marimba1.agw";
+w_load 83, "marimba2.agw";
+
+w_load 88, "ride1.agw";
+w_load 89, "ride2.agw";
+w_load 90, "ride3.agw";
+
+w_load 92, "cymbal1.agw";
+w_load 93, "cymbal2.agw";
+w_load 94, "cymbal3.agw";
+w_load 95, "rideping1.agw";

@@ -1,0 +1,21 @@
+/////////////////////////////////////////////
+// FM Knock 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 8000, 0;
+
+w_env AMPLITUDE,
+		0,	.5,
+		.02,	1,
+		.23,	0;
+w_env FREQUENCY,
+		0,	150,
+		.03,	40,
+		.22,	20;
+w_env MOD1,
+		0,	3,
+		.1,	1,
+		.15,	0;
+w_osc target, SINE;

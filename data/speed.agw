@@ -1,0 +1,7 @@
+/////////////////////////////////////////////
+// AGW reference sound set for benchmarking
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+#include "speed1.agw"
+#include "speed2.agw"

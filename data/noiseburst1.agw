@@ -1,0 +1,22 @@
+/////////////////////////////////////////////
+// Noise Burst 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 32000, 0;
+
+w_env AMPLITUDE,
+		0,	.4,
+		.02,	.06,
+		.08,	.015,
+		.9,	0;
+w_env FREQUENCY, 0, 10000;
+w_osc target, NOISE;
+
+w_env AMPLITUDE, 0, 8;
+w_env FREQUENCY,
+		0,	5500,
+		0.01,	4186;
+w_env MOD1;
+w_filter target, BANDPASS_12;

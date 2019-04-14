@@ -1,0 +1,68 @@
+/////////////////////////////////////////////
+// Bass Drum 9
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 8000;
+w_blank target, 8000, 0;
+
+//attack
+w_env AMPLITUDE,
+		0,	.1,
+		.01,	.05,
+		.04,	.02,
+		.5,	0;
+w_env FREQUENCY,
+		0,	2000,
+		.03,	500;
+w_osc target, NOISE;
+
+//power
+w_env AMPLITUDE,
+		0,	.8,
+		.05,	.9,
+		.15,	.7,
+		.8,	0;
+w_env MOD1,
+		0,	.05,
+		.2,	0;
+w_env FREQUENCY,
+		0,	300,
+		.02,	160,
+		.03,	70,
+		.1,	45,
+		.5,	44;
+w_osc target, SINE;
+
+//crunch distortion
+w_env AMPLITUDE, 0, .1;
+w_env FREQUENCY, 0, 200;
+w_osc target, NOISE;
+
+w_env AMPLITUDE, 0, 20;
+w_env FREQUENCY, 0, 1500;
+w_env MOD1;
+w_filter target, PEAK_12;
+
+w_env AMPLITUDE, 0, 20;
+w_gain target;
+
+w_env AMPLITUDE, 0, 3;
+w_env FREQUENCY, 0, 2000;
+w_filter target, PEAK_12;
+
+//envelope
+w_env AMPLITUDE,
+		0,	.8,
+		.05,	.9,
+		.15,	.7,
+		.8,	0;
+w_gain target;
+
+//filter
+w_env AMPLITUDE, 0, 0;
+w_env FREQUENCY,
+		0,	1500,
+		.02,	500,
+		.5,	100;
+w_filter target, LOWPASS_12;

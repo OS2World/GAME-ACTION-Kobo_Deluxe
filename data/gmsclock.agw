@@ -1,0 +1,20 @@
+/////////////////////////////////////////////
+// Grandma's Clock
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 96000, 0;
+
+w_env AMPLITUDE,
+		0,	.2,
+		1,	.1,
+		2,	0;
+w_env FREQUENCY, 100;
+w_env LIMIT, 5000;
+w_env MOD1, 5/4;
+w_env MOD2,
+		0,	.95,
+		.2,	.85,
+		2.8,	.3;
+w_osc target, SPECTRUM;

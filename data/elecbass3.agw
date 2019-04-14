@@ -1,0 +1,36 @@
+/////////////////////////////////////////////
+// Electric Bass 3
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 33488, 0;
+
+w_env AMPLITUDE,
+		0,	.6,
+		.01,	.5,
+		.99,	0;
+w_env FREQUENCY, 0, 261.625;
+w_env MOD1,
+		0,	.2,
+		1,	.01;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	.4,
+		.01,	.1,
+		.99,	0;
+w_env FREQUENCY, 0, 520;
+w_env MOD1,
+		0,	.2,
+		1,	.01;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	2,
+		.1,	1;
+w_env FREQUENCY,
+		0,	1000,
+		.1,	400;
+w_env MOD1, 0;
+w_filter target, LOWPASS_12;

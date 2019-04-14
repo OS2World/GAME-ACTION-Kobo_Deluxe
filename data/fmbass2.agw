@@ -1,0 +1,50 @@
+/////////////////////////////////////////////
+// FM Bass 2
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 16744;
+w_blank target, 16744, 0;
+
+//noise
+w_env FREQUENCY, 4000;
+w_env AMPLITUDE,
+		.001,	.1,
+		.01,	.01,
+		.05,	0;
+w_env MOD1, 1;
+w_osc target, NOISE;
+
+//bp filter sweep
+w_env FREQUENCY,
+		0,	2000,
+		.03,	700;
+w_env AMPLITUDE, 0, 10;
+w_env MOD1;
+w_filter target, BANDPASS_12;
+
+//bass
+w_env AMPLITUDE,
+		0,	.7,
+		.5,	.5,
+		.5,	0;
+w_env FREQUENCY,
+		0,	30,
+		.01,	65.40625;
+w_env MOD1,
+		0,	2,
+		.05,	1,
+		.1,	.7,
+		.85,	0;
+w_osc target, SINE;
+
+//harmonics
+w_env AMPLITUDE,
+		0,	.02,
+		.01,	.04,
+		.49,	.03,
+		.5,	0;
+w_env FREQUENCY,
+		0,	400,
+		.01,	98.109375;
+w_osc target, SINE;

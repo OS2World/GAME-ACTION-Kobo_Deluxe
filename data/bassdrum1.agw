@@ -1,0 +1,49 @@
+/////////////////////////////////////////////
+// Bass Drum 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 9000;
+w_blank target, 3000, 0;
+
+//attack
+w_env AMPLITUDE,
+		0,	.3,
+		.01,	.05,
+		.32,	0;
+w_env FREQUENCY,
+		0,	8000,
+		.01,	2000;
+w_osc target, NOISE;
+
+//power
+w_env AMPLITUDE,
+		0,	.35,
+		.07,	.49,
+		.13,	.47,
+		.1,	0;
+w_env FREQUENCY,
+		0,	220,
+		.03,	160,
+		.02,	70,
+		.15,	40;
+w_env MOD1,
+		0,	.05,
+		.1,	0;
+w_osc target, SINE;
+
+w_env FREQUENCY,
+		0,	220,
+		.03,	161,
+		.02,	72,
+		.15,	37;
+w_osc target, SINE;
+
+//filter
+w_env AMPLITUDE, 0;
+w_env FREQUENCY,
+		0,	1500,
+		0.02,	1100,
+		0.1,	400;
+w_env MOD1, 0;
+w_filter target, LOWPASS_12;

@@ -1,0 +1,76 @@
+/////////////////////////////////////////////
+// Cymbal 4 (Crash 1 Soft)
+// Copyright (C) David Olofson, 2002
+// Thanks to Jeff McClintock for suggesting
+// this synthesis method!
+/////////////////////////////////////////////
+
+w_format target, MONO16, 48000;
+w_blank target, 192000, 0;
+
+procedure cr()
+{
+	w_env FREQUENCY, f * 2;
+	w_osc target, SINEMORPH;
+	f = f * mf;
+	mf = mf + dmf;
+}
+
+w_env AMPLITUDE, .2;
+w_env MOD2, 1;
+
+f = 200;
+mf = 1.06;
+dmf = .005;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+w_env AMPLITUDE,
+		0,	.15,
+		4,	0;
+cr;
+cr;
+cr;
+w_env AMPLITUDE,
+		0,	.1,
+		4,	0;
+cr;
+cr;
+cr;
+
+w_env FREQUENCY,
+		0,	6500,
+		.5,	4500,
+		.5,	3500,
+		3,	3000;
+w_env AMPLITUDE, 0;
+w_filter target, HIGHPASS_12;
+
+w_env AMPLITUDE,
+		0,	30,
+		.5,	20,
+		.5,	15,
+		3,	10;
+w_gain target;
+
+w_env AMPLITUDE,
+		.00025,	.9*.25,
+		.01,	.5*.25,
+		.09,	.3*.25,
+		1.9,	.1*.25,
+		1,	.05*.25,
+		1,	0;
+w_gain target;
+
+w_env FREQUENCY, 2000;
+w_env AMPLITUDE, 0;
+w_filter target, HIGHPASS_12;
+
+w_env AMPLITUDE, 3;
+w_env FREQUENCY, 3000;
+w_filter target, PEAK_12;
+w_env FREQUENCY, 5000;
+w_filter target, PEAK_12;

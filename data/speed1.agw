@@ -1,0 +1,70 @@
+/////////////////////////////////////////////
+// AGW reference sound set for benchmarking
+// Sounds using mostly fast operators.
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_load 16, "aguitar1.agw";
+w_load 17, "aguitar2.agw";
+w_load 18, "banjo1.agw";
+w_load 19, "elecbass1.agw";
+w_load 20, "elecbass2.agw";
+w_load 21, "elecbass3.agw";
+w_load 22, "elecbass4.agw";
+w_load 23, "elecbass5.agw";
+w_load 24, "fmbass2.agw";
+w_load 25, "fmkoto1.agw";
+w_load 26, "noiseflute1.agw";
+w_load 27, "sawsynth1.agw";
+w_load 28, "sawsynth2.agw";
+w_load 29, "steelguit1.agw";
+w_load 30, "synbass1.agw";
+w_load 31, "kettle1.agw";
+
+w_load 48, "bassdrum1.agw";
+w_load 49, "bassdrum2.agw";
+w_load 50, "snare1.agw";
+w_load 51, "snare2.agw";
+w_load 52, "snare3.agw";
+w_load 53, "snare4.agw";
+w_load 54, "edge1.agw";
+w_load 55, "edge2.agw";
+w_load 56, "bassdrum3.agw";
+w_load 57, "bassdrum4.agw";
+w_load 58, "bassdrum5.agw";
+w_load 59, "bongo1.agw";
+w_load 60, "claps1.agw";
+w_load 61, "claps2.agw";
+w_load 62, "noiseburst1.agw";
+w_load 63, "noiseburst2.agw";
+
+w_load 64, "bassdrum6.agw";
+w_load 65, "bassdrum7.agw";
+w_load 66, "bassdrum8.agw";
+w_load 67, "bassdrum9.agw";
+w_load 68, "bassdrum10.agw";
+w_load 69, "sineknock1.agw";
+w_load 70, "sineknock2.agw";
+w_load 71, "fmknock1.agw";
+w_load 72, "warmpad1.agw";
+w_load 73, "phattpad1.agw";
+w_load 74, "phattpad2.agw";
+w_load 75, "phattpad3.agw";
+
+w_load 79, "truefm1.agw";
+
+w_load 84, "hardsync1.agw";
+w_load 85, "brass1.agw";
+w_load 86, "brass2.agw";
+w_load 87, "thunder1.agw";
+
+w_load 91, "ride4.agw";
+
+w_load 96, "cymbal4.agw";
+w_load 97, "crash1.agw";
+w_load 98, "hihat1o.agw";
+w_load 99, "hihat1c.agw";
+w_load 100, "hihat1p.agw";
+w_load 101, "snare5.agw";
+w_load 102, "noiseburst3.agw";
+w_load 103, "launch.agw";

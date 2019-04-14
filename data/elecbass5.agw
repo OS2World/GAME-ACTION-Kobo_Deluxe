@@ -1,0 +1,36 @@
+/////////////////////////////////////////////
+// Electric Bass 5
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 33488, 0;
+
+w_env AMPLITUDE,
+		0,	.4,
+		.005,	.3,
+		.995,	0;
+w_env FREQUENCY, 0, 261.4;
+w_env MOD1,
+		0,	.2,
+		1,	.01;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	.4,
+		.005,	.3,
+		.995,	0;
+w_env FREQUENCY, 0, 262;
+w_env MOD1,
+		0,	.2,
+		1,	.01;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	2,
+		.1,	1;
+w_env FREQUENCY,
+		0,	3000,
+		.1,	1000;
+w_env MOD1, 0;
+w_filter target, LOWPASS_12;

@@ -1,0 +1,49 @@
+/////////////////////////////////////////////
+// Hi-Hat 2 (Closed)
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 48000;
+w_blank target, 24000, 0;
+
+procedure cr(f, a)
+{
+	w_env AMPLITUDE, a;
+	w_env FREQUENCY, f * 1.9;
+	w_osc target, SINEMORPH;
+}
+
+w_env MOD2, .95;
+cr 300, .1;
+cr 303, .2;
+cr 310, .3;
+cr 321, .2;
+cr 334, .3;
+cr 351, .2;
+cr 370, .1;
+
+cr 400, .1;
+cr 403, .2;
+cr 410, .3;
+cr 421, .2;
+cr 434, .3;
+cr 551, .2;
+cr 570, .1;
+
+w_env FREQUENCY, 8000;
+w_env AMPLITUDE, 0;
+w_filter target, HIGHPASS_12;
+
+w_env AMPLITUDE, 70;
+w_gain target;
+
+w_env AMPLITUDE,
+		.00025,	1*.5,
+		.01,	.5*.5,
+		.09,	.05*.5,
+		.4,	0;
+w_gain target;
+
+w_env FREQUENCY, 4000;
+w_env AMPLITUDE, 0;
+w_filter target, HIGHPASS_12;

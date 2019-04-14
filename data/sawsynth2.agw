@@ -1,0 +1,24 @@
+/////////////////////////////////////////////
+// Saw Synth 2 (Still no filters!)
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 33488, 0;
+
+w_env AMPLITUDE,
+		0,	.3,
+		.1,	.2,
+		.9,	0;
+w_env MOD1,
+		0,	0,
+		1,	.5;
+
+w_env FREQUENCY, 0, 261.625;
+w_osc target, TRIANGLE;
+
+w_env FREQUENCY, 0, 260.525;
+w_osc target, TRIANGLE;
+
+w_env FREQUENCY, 0, 262.725;
+w_osc target, TRIANGLE;

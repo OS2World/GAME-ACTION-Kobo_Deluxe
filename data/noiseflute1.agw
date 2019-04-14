@@ -1,0 +1,35 @@
+/////////////////////////////////////////////
+// Noise Flute 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 66976, 0;
+
+//energy (noise)
+w_env AMPLITUDE,
+		0,	.06,
+		.2,	.01,
+		.2,	.02,
+		1.4,	.02,
+		.2,	0;
+w_env FREQUENCY, 8000;
+w_osc target, NOISE;
+w_env FREQUENCY, 3000;
+w_osc target, NOISE;
+
+//resonance (tone)
+w_env AMPLITUDE,
+		0,	1500,
+		.2,	900,
+		.2,	1500,
+		1.4,	2000,
+		.2,	1;
+w_env FREQUENCY, 0, 1046.5;
+w_filter target, BANDPASS_12;
+
+//cut away undesired residual noise
+w_env AMPLITUDE, 0;
+w_env FREQUENCY, 500;
+w_env MOD1, 0;
+w_filter target, HIGHPASS_12;

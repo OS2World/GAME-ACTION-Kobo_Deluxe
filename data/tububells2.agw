@@ -1,0 +1,30 @@
+/////////////////////////////////////////////
+// Tubular Bells 2
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 96000, 0;
+
+w_env FREQUENCY, 261.625;
+w_env LIMIT, 3500;
+w_env AMPLITUDE,
+		0,	.17,
+		.1,	.07,
+		.9,	.02,
+		2,	0;
+w_env MOD1, 1.5;
+w_env MOD2,
+		0,	.60,
+		.05,	.45,
+		1,	.4,
+		1.95,	0;
+w_osc target, ASPECTRUM;
+
+w_env AMPLITUDE,
+		0,	.35,
+		.1,	.15,
+		.9,	.1,
+		2,	0;
+w_env MOD1, 4;
+w_osc target, ASPECTRUM;

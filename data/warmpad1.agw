@@ -1,0 +1,30 @@
+/////////////////////////////////////////////
+// Warm Pad 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 33488, 1;
+
+// The exact desired frequency is 523.25 Hz,
+// but as we need a perfect loop, we'll round
+// all frequencies so that we get integer
+// numbers of periods per loop.
+
+w_env AMPLITUDE,
+		0,	.5,
+		.5,	.2,
+		.5,	.5;
+w_env MOD1,
+		0,	.2,
+		.5,	.4,
+		.5,	.2;
+w_env FREQUENCY, 0, 522;
+w_osc target, SINE;
+
+w_env MOD1,
+		0,	.3,
+		.5,	.1,
+		.5,	.3;
+w_env FREQUENCY, 0, 524;
+w_osc target, SINE;

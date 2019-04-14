@@ -1,0 +1,17 @@
+/////////////////////////////////////////////
+// Sine Knock 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 22050;
+w_blank target, 5514, 0;
+
+w_env AMPLITUDE,
+		0,	.5,
+		.02,	1,
+		.23,	0;
+w_env FREQUENCY,
+		0,	1000,
+		.03,	60,
+		.22,	40;
+w_osc target, SINE;

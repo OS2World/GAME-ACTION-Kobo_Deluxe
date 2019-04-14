@@ -1,0 +1,57 @@
+/////////////////////////////////////////////
+// Acoustic Guitar 2
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 33488, 0;
+
+//string
+w_env AMPLITUDE,
+		0,	.4,
+		.005,	.1,
+		.995,	0;
+w_env FREQUENCY, 261.65;
+w_env MOD1,
+		0,	.2,
+		1,	.1;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	.6,
+		.005,	.2,
+		.5,	0;
+w_env FREQUENCY, 261.75;
+w_env MOD1,
+		0,	.2,
+		1,	.1;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	3,
+		.01,	1.1;
+w_env FREQUENCY,
+		0,	8000,
+		.01,	3000,
+		.1,	1500;
+w_env MOD1, 0;
+w_filter target, LOWPASS_12;
+
+w_env AMPLITUDE, 1;
+w_env FREQUENCY, 2000;
+w_filter target, LOWPASS_12;
+
+w_env AMPLITUDE, 1;
+w_env FREQUENCY, 250;
+w_filter target, HIGHPASS_12;
+
+//body
+w_env AMPLITUDE, 4;
+w_env FREQUENCY, 200;
+w_filter target, PEAK_12;
+w_env AMPLITUDE, 6;
+w_env FREQUENCY, 150;
+w_filter target, PEAK_12;
+w_env AMPLITUDE, 8;
+w_env FREQUENCY, 100;
+w_filter target, PEAK_12;

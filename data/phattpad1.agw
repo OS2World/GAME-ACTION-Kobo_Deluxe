@@ -1,0 +1,50 @@
+/////////////////////////////////////////////
+// Phatt Pad 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+wid = target;
+
+w_format wid, MONO16, 33488;
+w_blank wid, 33488, 1;
+
+// The exact desired frequency is 523.25 Hz,
+// but as we need a perfect loop, we'll round
+// all frequencies so that we get integer
+// numbers of periods per loop.
+
+w_env AMPLITUDE,
+		0,	.15,
+		.25,	.25,
+		.5,	.25,
+		.25,	.15;
+w_env MOD1,
+		0,	.1,
+		.5,	.3,
+		.5,	.1;
+w_env FREQUENCY, 521;
+w_osc wid, TRIANGLE;
+w_env FREQUENCY, 522;
+w_osc wid, TRIANGLE;
+
+w_env MOD1,
+		0,	.2,
+		.5,	.07,
+		.5,	.2;
+w_env FREQUENCY, 523;
+w_osc wid, TRIANGLE;
+w_env FREQUENCY, 524;
+w_osc wid, TRIANGLE;
+
+p_param target, WAVE, wid;
+p_param target, DRIVER, POLY;
+p_param target, ENV_SKIP, 1;
+p_param target, ENV_L0, 0;
+p_param target, ENV_DELAY, 0;
+p_param target, ENV_T1, .1;
+p_param target, ENV_L1, 1;
+p_param target, ENV_HOLD, 0;
+p_param target, ENV_T2, 0;
+p_param target, ENV_L2, 1;
+p_param target, ENV_T3, -1;
+p_param target, ENV_T4, .5;

@@ -1,0 +1,32 @@
+/////////////////////////////////////////////
+// Bongo 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 11000, 0;
+
+w_env AMPLITUDE,
+		0,	.2,
+		.01,	.1,
+		.02,	.02,
+		.28,	0;
+w_env FREQUENCY, 0, 200;
+w_osc target, NOISE;
+w_env FREQUENCY, 0, 1000;
+w_osc target, NOISE;
+
+w_env AMPLITUDE, 0, 20;
+w_env FREQUENCY, 0, 270;
+w_filter target, PEAK_12;
+w_env AMPLITUDE, 0, 40;
+w_env FREQUENCY, 0, 170;
+w_filter target, HIGHPASS_12;
+
+//reverberation shaper
+w_env AMPLITUDE, 0, 0;
+w_env FREQUENCY,
+		0,	3000,
+		.05,	1000,
+		.25,	500;
+w_filter target, LOWPASS_12;

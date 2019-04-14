@@ -1,0 +1,56 @@
+/////////////////////////////////////////////
+// Banjo 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 33488;
+w_blank target, 33488, 0;
+//string
+w_env AMPLITUDE,
+		0,	.5,
+		.005,	.1,
+		.995,	0;
+w_env FREQUENCY,
+		0,	400,
+		0.01,	270,
+		0,	261.67;
+w_env MOD1,
+		0,	.2,
+		1,	.1;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	.7,
+		.005,	.2,
+		.5,	0;
+w_env FREQUENCY, 0, 261.73;
+w_env MOD1,
+		0,	.2,
+		1,	.1;
+w_osc target, PULSE;
+
+w_env AMPLITUDE,
+		0,	2,
+		.01,	1;
+w_env FREQUENCY,
+		0,	8000,
+		.01,	6000,
+		.1,	3000;
+w_env MOD1, 0;
+w_filter target, LOWPASS_12;
+
+w_env AMPLITUDE, 1;
+w_env FREQUENCY, 2500;
+w_filter target, LOWPASS_12;
+
+w_env AMPLITUDE, 1;
+w_env FREQUENCY, 500;
+w_filter target, HIGHPASS_12;
+
+//body
+w_env AMPLITUDE, 4;
+w_env FREQUENCY, 220;
+w_filter target, PEAK_12;
+w_env AMPLITUDE, 6;
+w_env FREQUENCY, 150;
+w_filter target, PEAK_12;

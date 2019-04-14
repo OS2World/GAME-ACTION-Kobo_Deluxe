@@ -1,0 +1,139 @@
+/////////////////////////////////////////////
+// Loader script for sound editing
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+#include "speed.agw"
+end;
+
+/*
+a = 1000 + 100 / 10 - 1 * 0.1;
+b = (1000 + 100) / 10 - 1 * 0.1;
+c = 1000 + 100 / (10 - 1) * 0.1;
+d = 440*2^-(1/12);
+e = 440*2^(1/12);
+print "testing; a=", a, " b=", b, " c=", c, 
+		" d=", d, " e=", e, "\n";
+*/
+
+print "Loading scripts and data for sound editing...\n";
+w_load 16, "aguitar1.agw";
+w_load 17, "aguitar2.agw";
+w_load 18, "banjo1.agw";
+w_load 19, "elecbass1.agw";
+w_load 20, "elecbass2.agw";
+w_load 21, "elecbass3.agw";
+w_load 22, "elecbass4.agw";
+w_load 23, "elecbass5.agw";
+
+w_load 24, "fmbass2.agw";
+w_load 25, "fmkoto1.agw";
+w_load 26, "noiseflute1.agw";
+w_load 27, "sawsynth1.agw";
+w_load 28, "sawsynth2.agw";
+w_load 29, "steelguit1.agw";
+w_load 30, "synbass1.agw";
+w_load 31, "kettle1.agw";
+
+w_load 48, "bassdrum1.agw";
+w_load 49, "bassdrum2.agw";
+w_load 50, "snare1.agw";
+w_load 51, "snare2.agw";
+w_load 52, "snare3.agw";
+w_load 53, "snare4.agw";
+w_load 54, "edge1.agw";
+w_load 55, "edge2.agw";
+
+w_load 56, "bassdrum3.agw";
+w_load 57, "bassdrum4.agw";
+w_load 58, "bassdrum5.agw";
+w_load 59, "bongo1.agw";
+w_load 60, "claps1.agw";
+w_load 61, "claps2.agw";
+w_load 62, "noiseburst1.agw";
+w_load 63, "noiseburst2.agw";
+
+w_load 64, "bassdrum6.agw";
+w_load 65, "bassdrum7.agw";
+w_load 66, "bassdrum8.agw";
+w_load 67, "bassdrum9.agw";
+w_load 68, "bassdrum10.agw";
+w_load 69, "sineknock1.agw";
+w_load 70, "sineknock2.agw";
+w_load 71, "fmknock1.agw";
+
+w_load 72, "warmpad1.agw";
+w_load 73, "phattpad1.agw";
+w_load 74, "phattpad2.agw";
+w_load 75, "phattpad3.agw";
+w_load 76, "gmsclock.agw";
+w_load 77, "tububells1.agw";
+w_load 78, "tububells2.agw";
+w_load 79, "truefm1.agw";
+
+w_load 80, "xylophone1.agw";
+w_load 81, "xylophone2.agw";
+w_load 82, "marimba1.agw";
+w_load 83, "marimba2.agw";
+w_load 84, "hardsync1.agw";
+w_load 85, "brass1.agw";
+w_load 86, "brass2.agw";
+w_load 87, "thunder1.agw";
+
+w_load 88, "ride1.agw";
+w_load 89, "ride2.agw";
+w_load 90, "ride3.agw";
+w_load 91, "ride4.agw";
+w_load 92, "cymbal1.agw";
+w_load 93, "cymbal2.agw";
+w_load 94, "cymbal3.agw";
+w_load 95, "rideping1.agw";
+
+w_load 96, "cymbal4.agw";
+w_load 97, "crash1.agw";
+w_load 98, "hihat1o.agw";
+w_load 99, "hihat1c.agw";
+w_load 100, "hihat1p.agw";
+w_load 101, "snare5.agw";
+w_load 102, "noiseburst3.agw";
+
+w_load 103, "launch.agw";
+
+/*
+w_format 103, MONO16, 48000;
+w_blank 103, 144000;
+w_env AMPLITUDE, .1;
+w_env LIMIT, 24000;
+w_env MOD1, 0;
+w_env MOD2, 1;
+w_env MOD3, 0;
+w_env FREQUENCY, 109.8;
+w_osc 103, TRIANGLE;
+w_env FREQUENCY, 110.2;
+w_osc 103, TRIANGLE;
+
+w_env AMPLITUDE, 10;
+w_env FREQUENCY,
+	0,	440,
+	3,	150;
+w_filter 103, PEAK_12;
+
+w_env AMPLITUDE, .03;
+w_env FREQUENCY, 441;
+w_osc 103, TRIANGLE;
+
+w_env FREQUENCY, 439;
+w_osc 103, TRIANGLE;
+
+w_env AMPLITUDE, 15;
+w_env FREQUENCY,
+	0,	3000,
+	1,	1000,
+	1,	600,
+	1,	500;
+w_filter 103, LOWPASS_12;
+
+w_load -1, "kobosfx.agw";
+*/
+
+print "  Done!\n";

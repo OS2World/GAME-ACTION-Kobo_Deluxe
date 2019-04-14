@@ -1,0 +1,56 @@
+/////////////////////////////////////////////
+// Snare 5
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 48000;
+w_blank target, 48000, 0;
+
+procedure cr()
+{
+	w_env AMPLITUDE, a;
+	w_env FREQUENCY, f;
+	w_osc target, TRIANGLE;
+	f = f * 1.05 + 7;
+}
+
+w_env MOD1, .02;
+
+a = .05;
+f = 250;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+
+w_env AMPLITUDE, 15;
+w_gain target;
+
+w_env FREQUENCY, 4500;
+w_env AMPLITUDE, 1;
+w_env MOD1;
+w_filter target, HIGHPASS_12;
+
+w_env AMPLITUDE, 5;
+w_gain target;
+
+w_env AMPLITUDE,
+		0,	1,
+		.01,	.3,
+		.09,	.1,
+		.9,	0;
+w_gain target;
+
+w_env FREQUENCY, 220;
+w_env AMPLITUDE,
+		0,	100,
+		.1,	50;
+w_filter target, HIGHPASS_12;
+w_env FREQUENCY, 280;
+w_filter target, PEAK_12;

@@ -1,0 +1,19 @@
+/////////////////////////////////////////////
+// Ride Ping 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 32000, 0;
+
+w_env AMPLITUDE,
+		0,	.3,
+		.1,	.1,
+		.9,	0;
+w_env FREQUENCY, 3500;
+w_env MOD1, 1.06;
+w_env MOD2,
+		0,	.9,
+		.2,	.8,
+		2.8,	.2;
+w_osc target, SPECTRUM;

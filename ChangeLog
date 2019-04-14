@@ -1,0 +1,839 @@
+Kobo Deluxe v0.4pre8
+	* Added Extreme Pickyness Mode (--enable-epm).
+	  (Unfortunately, this is not enough to ensure that
+	  stuff compiles on gcc 3.x. Guess I'll just have to
+	  install gcc3, or rely on gcc3 users reporting all
+	  warnings and errors.)
+	* Some const string issues fixed. (Returning a const
+	  string as "char *" and the like.)
+	* Removed all AdLib stuff and support for non-
+	  standard MIDI file variants. However cool it might
+	  be to play those files, I have no use for it and
+	  can't maintain it in this project.
+	* Removed old bogus stuff from the comments in
+	  filemap.h.
+	* Minor cleanups in filemap.cpp.
+	* Some GCC3 fixes in score.cpp. (String copying...)
+	* Scroll text updated.
+	* Improved scroller "speed throttling".
+	* Returning to the intro now restores the "demo" map.
+	* Added Electric Fence to the Extreme Pickyness Mode.
+	* Started cleaning up the C code using Splint. (Can
+	  someone please donate a FlexLint license...? :-)
+	* load_sounds() in kobo.cpp fixed; it wouldn't load
+	  the music if the sound effects were loaded with
+	  a previous call.
+	* Somewhere along the way, I managed to get the
+	  intro to generate a new demo map on every intro
+	  screen switch. Fixed.
+	* Audio engine changes:
+		* Added OSS 'pollaudio' for debugging.
+		* Fixed index outside array in
+		  audio_wave_free()!
+		* Tightened up the API - signs only where
+		  needed and things like that.
+		* 0 dB peak amplitude for 32 bit waveforms
+		  changed to [-1.0, +1.0].
+		* ptab_init() now takes an integer argument.
+		  (No implicit float->fixp16:16 conversion.)
+		* Ports and "clients" are now named for
+		  debugging/tracing, although client names
+		  exist only if AEV_TRACING is compiled in.
+		* Cleaned up audio event system names.
+		  Everything is now aev_<something>, and most
+		  names have been significantly shortened.
+		* Added aev_init() macro for ports! (Aargh!)
+		* Open/close of subsystems cleaned up. All
+		  subsystems now have audio_*_open/close()
+		  calls, and should (hopefully) clean up
+		  properly when closed.
+		* Audio engine open/close API changed;
+		  the full sequence is now:
+			audio_open()	(optional)
+			audio_start()
+			audio_stop()	(optional)
+			audio_close()
+		  Note that the waveform and scripting
+		  subsystems will still initialize
+		  themselves automatically if used before
+		  calling audio_open().
+		! The last two seem to have fixed the
+		  issues with restarting the engine on
+		  Linux! Remains to see if that was the
+		  whole problem...
+	BENCHMARK:	speed1.agw renders in 27.2 s.
+			speed2.agw renders in 21.5 s.
+			Total: 48.7 s.
+		* Added block based processing framework.
+		* Implemented block read, write and add.
+		* Added block based envelope processing.
+		* Using the new envelope interface - but
+		  still processing one sample at a time.
+	(BENCHMARK:	speed.agw renders in 34.2 s!)
+		* Using 32 frame blocks in wca_filter()
+		  and wca_gain().
+	(BENCHMARK:	speed.agw renders in 33.6 s.
+			wca_filter() disabled: 31 s.)
+		* Converted wca_osc() to block based
+		  processing, and made some minor
+		  optimizations.
+		* WCA_SYNC for WCA_NOISE fixed. Each sync
+		  pulse now shifts in a new value through
+		  the S&H as well.
+		* Fixed bug in spectrum oscillators: They
+		  would produce no output with a mod1 input
+		  of less than 1.0. They now produce pure
+		  sine, as originally intended.
+		* HSPECTRUM and PHSPECTRUM fixed: They
+		  actually didn't separate roll-off control
+		  for odd and even harmonics at all! (Thus,
+		  they were basically just broken versions
+		  of SPECTRUM...)
+		* SPECTRUM modulation mapping unified; MOD1
+		  now always controls the overtone stepping.
+		* The new AHSPECTRUM replaces PHSPECTRUM.
+		* HSPECTRUM becomes a AHSPECTRUM with
+		  multiplicative overtone stepping control.
+	BENCHMARK:	speed1.agw:	10.2 s. 167% faster.
+			speed2.agw:	17.7 s. 21% faster.
+			Total: 27.9 s. 75% faster.
+		Obviously, the optimizations worked out
+		rather well. Next, we'll try to do something
+		about those spectrum oscillators...		
+
+Kobo Deluxe v0.4pre7
+	* Old samples boosted by 70%, to compensate for the
+	  lack of an illogical amplification factor in the
+	  new engine. :-)
+	* The screwed up scroll position during the "Game
+	  Over" state fixed.
+	* "Early bullets", flickering and other crap fixed.
+	* gfxengine_t and sprite.[ch]: Added clampcolor() and
+	  s_clampcolor (for specifying what color and alpha
+	  to assume for areas outside images), and changed
+	  the color format to Uint8 in the range [0,255], to
+	  be consistent with the change in window_t.
+	* manage: Selecting a starting stage before staring
+	  a game now preserves the actual map that is
+	  generated. You don't get a new version of the
+	  same level, but the exact map you're looking at
+	  before starting the game.
+	* radar: Fixed potential color allocation bug when
+	  changing video mode; it used to initialize only
+	  once during the game life time...
+	* radar: Tweaked colors, and made the the blue
+	  launcher nodes visible on the radar.
+	* Options 'cheat' and 'indicator' are now commands
+	  rather than switches, so they cannot be saved in
+	  the configuration by accident.
+	* Split the "push move" mode off from 'indicator'
+	  into a feature of it's own, activated with
+	  the 'pushmove' command.
+	* Game and Control options moved to the top of the
+	  options main menu.
+	* Scrolling radar implemented. Can be disabled in
+	  Game Options, to work like the old version.
+	* gfxengine_t make slightly more robust WRT calls
+	  being made while the screen is closed.
+	* Switching between fullscreen and windowed modes
+	  can now be done at any time with the usual ALT+ENTER
+	  shortcut. :-) Special case activates pause mode if
+	  it's done in the middle of a game.
+	* Random number generator split in two; pubrand and
+	  gamerand, and get_seed() member added, as a
+	  preparation for demo recording and playback.
+	* 'P' and the mighty strange Pause Key parsed and
+	  routed to the pause function. (This is also used
+	  internally, as a neat way of telling whatever state
+	  might be active to pause.)
+	* Touched up the screen framework artwork a little.
+	* Optimized background rendering some. (Occasional
+	  clipped extra row and column of tiles eliminated.)
+	* Stupid bug in window_t::invalidate() found and
+	  killed: gfxengine_t clips invalidated rects, so we
+	  need to make sure our window is selected!
+	* window_t now supports background images. clear()
+	  takes an optional SDL_Rect, and blits from the
+	  image, if there is one, or fills with the
+	  background color as in previous versions.)
+	* Background graphics in the displays and the radar
+	  screen! :-)
+	* Added dither plugin with hard-coded 2x2 filter.
+	* Added options to turn dithering off.
+	* Added kludge for OpenGL cards that can't handle
+	  RGBA8, but turns it into RGBA4, and a switch to
+	  enable it if required.
+	* sprite: S_BLITMODE_NORMAL renamed S_BLITMODE_AUTO.
+	  (Makes more sense!)
+	* Option broken_numdia (Broken NumPad Diagonals)
+	  added - I want to use the page up/down keys for
+	  other stuff, even if *some* systems can't decode
+	  the numpad correctly! :-/
+	* Added the algorithmically constructed sound
+	  effect "SOUND_LAUNCH".
+	* Separated the AGW scripting engine core from the
+	  audio engine and made it the "Extensible Embeddable
+	  Language". (a_agw.[ch] now contain only the AGW
+	  extension to EEL.)
+	* Added the algorithmically constructed sound
+	  effect "SOUND_LAUNCH2", for the "blue balls".
+	* Fixed some bugs in filemapper_t.
+	* Any jerking, flickering etc when entering a new
+	  stage should now be *completely* eliminated. I
+	  think... ;-)
+	* Intro doesn't conflict with stage 100 any more.
+	* Implemented 2D positional sound effects. :-)
+	* Added screenshot feature. (OpenGL not implemented,
+	  as the current glSDL cannot read the screen surface.)
+	  Saves BMP only, and is connected to PrintScreen and
+	  SysReq.
+	* EEL now uses the same callback prototype for all
+	  extensions, whether they are commands, operators
+	  or functions.
+	* Ported Jeremy Sheeley's player profiles patch
+	  from 0.3, and tweaked the user interface a little.
+	* Fixed double initialization of the manage object.
+	* Extended the score file format into a more powerful,
+	  versionned "profile file format".
+	* file.(h|cpp) and parts of score.(h|cpp) replaced
+	  with pfile.(h|cpp), which implements a generic,
+	  portable "toolkit" for platform independent binary
+	  data file access.
+	* Added game.(h|cpp), which collects all configurable
+	  game parameters in one place.
+	* The "speed" parameter is now considered a cheat,
+	  and is no more available from within the game.
+	* Last player profile is remembered in the config.
+	* Added optional "Diagonals Emphasis Filter". (I'd
+	  say it only makes control feel sluggish most of the
+	  time, but it might work for someone... I'm open to
+	  suggestions if anyone has an idea for a smarter
+	  filter.)
+	* Eliminated extra calls to score_manager_t::record().
+	* Start level selection in intro mode removed.
+	* Implemented collision/health system. When two
+	  "collidable" objects collide, the damage of each
+	  object is subtracted from the health of the other.
+	  (Object properties set so that the game will
+	  play exactly like the original with the single
+	  player default settings for the player ship.)
+	* Turned the "shield = -1" feature into 'shootable'.
+	* Added health bar.
+	* Threw in detection and fix to read broken 73 byte
+	  scorefiles from older Win32 versions. (Seems like
+	  the new code works right on Win32 as well, BTW.)
+	* Various fixes and additions to filemapper_t.
+	  (Scanning multiple directories, most importantly.)
+	* Removed "./scores" from the SCORES path for now,
+	  as it's actually the same place as the default
+	  score dir on Win32. (You'd get all profiles and
+	  scores twice, that is.)
+	* Removed "bgm.raw" as it's not used anymore.
+	* No hyphen before the "pre" from now on!
+	* glSDL changes:
+		* Applications can now set the colorkey of
+		  of surface *after* SDL_DisplayFormat() -
+		  although it will just discard the TexInfo,
+		  resulting in the surface being converted
+		  before the first blit, and after every
+		  change in the surface.
+		* Silly intermediate buffer eliminated in
+		  _DownloadTexture().
+		* glSDL automatically stretches resolutions
+		  below 640x480 using an integer factor.
+	* Audio engine changes:
+		* Benchmarking tries to use gettimeofday() if
+		  not compiled for x86 CPUs.
+		* a_tools.h got some cleaning up, some new
+		  macros, and mixing functions optimized with
+		  a Duff's Device variant.
+		* __mastervol() is obsoleted by the groups,
+		  and was killed to save some cycles. (It ate
+		  almost 1% of my P-III 933!)
+		* Ditched the "Smart Stereo" Limiter - it's
+		  not loud enough, and should be replaced with
+		  something that drives the signal non-linear
+		  to squeeze more power in when the signal
+		  isn't panned center.
+		* Dropped the saturating 32->16 bit converter,
+		  and fixed the limiter so that it reliably
+		  *limits* the signal the way it should.
+		* Limiter does no longer invert the signal.
+		* Added ACC_PRIORITY.
+		* Added controls for Channel Inserts.
+		* Channel default controls (used in DETACH
+		  mode) removed. Just expect channel controls
+		  to stay where you leave them, and
+		  everything should be fine - and faster!
+		* Implemented dynamic voice allocation.
+		* ACC_DETACH now effectively means
+		  "polyphonic mode". "Detached" voices are
+		  still owned by the channel that launched
+		  them - but just as before, channel
+		  controls don't affect voices directly after
+		  they're launched. (Even that may change
+		  eventually...)
+		* Ripped mid.cpp and mid.h from the AdLib FM
+		  player AdPlug 1.1. Started stripping off
+		  the FM stuff and converting it to C and the
+		  "midisock" interface.
+		* Added primitive VU-meter to the voice mixer.
+		* Implemented audio_wave_convert(), using the
+		  voice mixer in interpolated 16x oversampled
+		  mode.
+		* Added simple enhancer and noise gate
+		  functions to the init time wave API.
+		* Hacked basic polyphony support into a_midicon.
+		* ACC_RANDTRIG is now *really* a 16:16 fixp
+		  value, to allow finer control of the
+		  randomize depth. (Next, I'll make the section
+		  end marker fixed point, to allow sub sample
+		  accurate loop timing - as well as finer
+		  RETRIG and RANDTRIG control. :-)
+		* Fabricated a nice 3'rd degree LUT for
+		  various MIDI -> Linear Control mapping.
+		* Introduced a more solid scheme for keeping
+		  track of allocated voices.
+		* audio_channel_play() now takes 16:16 linear
+		  pitch and 16:16 volume, instead of the bogus
+		  MIDI format arguments.
+		* Added audio_wave_filter().
+		* DETACH mode split into ADM_POLY and
+		  ADM_FULL, to natively support the slightly
+		  different ways DETACH mode is used by
+		  midicon and for sound effects.
+		* Added cubic (4-point) interpolation, based
+		  on a formula by Olli Niemitalo. Low freq
+		  sines sound *perfect* - no audible distortion
+		  whatsoever. It sounds great up to 1:1, but
+		  runs into trouble in the upper half of the
+		  octave above 1:1 - linear 2X+ sounds better
+		  from there and up. The best part is that the
+		  CPU usage is somewhere in between linear 2X
+		  and linear 4X on a P-III.
+		* Volume ramping bug fixed: The "boot strap"
+		  values calculated when starting new voices
+		  were wrong, and resulted in an undesired
+		  fade in over one buffer.
+		* "Playing" indicator below the per-voice VUs.
+		* Waveform size restrictions eliminated! (Well,
+		  you'd probably have trouble with 2+ GB on 32
+		  bit systems... ;-)
+		* Dynamic voice allocation now always starts
+		  with voice 0 in the first pass, when looking
+		  for unused voices. (The other passes are still
+		  starting at the voice after the last voice
+		  allocated, to favor the "oldest" voice when
+		  there are multiple equivalent choices.)
+		* Implemented MIDI CCs 120, 121, 123, 126 & 127.
+		* Added SILENT and RESTING states to the plugin
+		  API, to deal with silent output efficiently.
+		* Optimized bus handling; now, bus send buffer
+		  clearing and other stuff isn't even considered
+		  unless a bus actually is in use.
+		* Implemented the Bus Control MIDI CCs. (39...55
+		  on the first AUDIO_MAX_BUSSES channels.)
+		* Reverb SNR improved. The internal precision is
+		  now 8 bits higher than that of the I/O, which
+		  produces "perfect" results down to the LSB in
+		  the final output.
+		* Implemented CCs 88, 89 and 91; "primary bus",
+		  "send bus" and "send level".
+		* Added SINEMORPH, SPECTRUM, and LSPECTRUM
+		  oscillators.
+		* Changed ACC_PITCH to fixed point linear freq,
+		  where the integer bits correspond to MIDI
+		  pitch. That is, 60.0 now does what 1.0 used
+		  to do, and to step up one octave, add 12.0
+		  instead of multiplying by 2.0.
+		* Various oscillators and stuff added to the
+		  Waveform Construction API.
+		* Added bandlimiting or oversampling to all
+		  Waveform Construction API oscillators.
+		* Modulation API cleaned up.
+		* Voice mixer code cleaned up a bit.
+		* Voices now use timestamped events for control.
+		* "Plugin style" API for patches separates the
+		  channel->voice bindings from the engine core.
+	    BENCHMARKING NOTE: Right now it takes 60 seconds to
+		load and render the 72 AGW sounds I've created
+		so far. Although most of the code is currently
+		*very* inefficient, only the SPECTRUM oscillators
+		are really so slow that it matters.
+	* Audio Voice Mixer benchmark results, 20020111:
+	   (P-III 933, 48 kHz, 20 ms latency, playing
+	   an 8 kHz 8 bit stereo sample in 32 voices,
+	   compiler optimizations disabled. Unit is percent
+	   of total CPU time.)
+	   -----------------------------------------------
+		Very Low:	6.9%
+		Low:		14.5%
+		Normal:		10.1%
+		High:		17.9%
+		Very High:	136% (overload!)
+
+	   (Same, but with gcc/g++ -O3 optimization.)
+	   -----------------------------------------------
+		Very Low:	3.5%
+		Low:		6.5%
+		Normal:		4.6%
+		High:		7.9%
+		Very High:	78% (causes underruns)
+
+	   Obviously, on this machine, the "Normal" mode,
+	   which is using plain linear interpolation, is
+	   almost as fast as the "Very Low" mode, whereas
+	   the "Low" mode is more expensive. This is to be
+	   expected from CPUs with fast multiplications.
+	* Audio Voice Mixer benchmark results, 20020503:
+	   (Same machine, same settings, same test, but with
+	   the new cubic interpolating mixer, internal
+	   fragment size limit, timestamped events etc. With
+	   -O3 optimizations.)
+	   -----------------------------------------------
+		Very Low:	4.5%
+		Low:		6.8%
+		Normal:		5.5%
+		High:		8.2%
+		Very High:	9.5%
+
+	  Higher loads occur only when pushing the pitch more
+	  than ~1.5 octaves above fs in "Very High" quality.
+	  (That results in linear interpolation w/ 4x+
+	  oversampling, which is pretty slow.)
+
+
+*** The Audio Engine: Why the GPLed files?
+
+    The sound code used in Kobo Deluxe was originally written
+    by Masanao Izumo <mo@goice.co.jp>, for XKobo 1.11+.
+    Masanao also added the sound effect samples that are still
+    being used.
+
+    You may have noticed that, while most, if not all of the
+    current audio engine is new code, which is LGPLed, a few
+    files (a_globals.[ch] and audio.[ch]) are GPLed, and
+    contain a copyright notice mentioning Masanao Izumo.
+    
+    This effectively means that the whole audio engine has
+    to be used under the terms of the GPL; not the LGPL.
+
+    As this will probably be too restrective for many of the
+    users the engine is targetting, I've contacted Masanao
+    for a resolution, but have yet to receive a response.
+
+						David Olofson
+
+Kobo Deluxe v0.4-pre6
+	* I've compiled with -Wall and nearly all of the
+	  additional warning switches (not activated by -Wall)
+	  to verify all code. Many things that non-gcc
+	  compilers could complain about should be fixed in
+	  this version.
+	* "Video Driver" option not shown if there's only one
+	  choice. (Which is the case if you build w/o OpenGL.)
+	* Exit with ESCAPE from config menues fixed - now
+	  cancels any changes and plays the appropriate sfx.
+	* Solaris package building script 'buildpkg.sh' and
+	  required configure.in fix by Andreas Spångberg added.
+	* String copy bug in cfgparse.cpp fixed. (Andreas
+	  Spångberg.)
+	* Switching between windowed and fullscreen modes no
+	  more results the screen being offset.
+	* Screen centering fixed.
+	* Border in windowed mode fixed.
+	* Cleaned up audio config menu, and added volume
+	  controls for sfx, (future) intro music and in-game
+	  music. (Note that the "Master Volume" is still
+	  there, and it's still digital...)
+	* Icreased the number of volume levels available in
+	  the audio config menu. (Used to be 25% increments.)
+	* Added redefined() and accept() to config_parser_t.
+	* Non-interactive widgets handled correctly in menues.
+	* Added headers to configuration menues.
+	* Added 'unit' string to ct_spin_t.
+	* window_t::select() now comes in a private flavor
+	  without checks.
+	* Config menues now make use of OS_UPDATE_* flags in
+	  addition to the OS_CANCEL tag, to allow instant
+	  effect controls to cancel/undo properly.
+	* config_form_t now has a virtual member undo_hook()
+	  that's called by undo(). (Used to make ESC exit work.)
+	* Audio engine changes:
+		* Channels are separated into voices (mixing)
+		  and channels (control abstraction) levels.
+		* Groups added for easy channel management.
+		* The API provides access to channels and
+		  groups, but not direct access to voices.
+		* All fixed point values are now 16:16.
+		* API variants with float arguments added.
+		* AC_DETACH added. (Easy SFX control.)
+		* Panning/balance control added.
+		* Added "waves" to get rid of sample pointers.
+		* AC_SPEED removed. (Obsoleted by the internal
+		  conversion to original wave sample rates.)
+		* Fixed bug in reverb: Right input missing!
+		* Another reverb bug: The delay buffer was too
+		  short for >=32000 kHz with the current taps.
+		* Implemented AC_RETRIG and AC_RANDTRIG.
+		* Improved resampling frequency accuracy.
+		* Improved looping accuracy and quality.
+		* Added MIDI input implementation for OSS and
+		  ALSA raw MIDI interfaces.
+		* Fixed potential crash bug; mixing buffer
+		  size variable would be wrong if the desired
+		  buffer size couldn't be set!
+		* Added higher quality voice resamplers.
+		* sound.[ch] replaced by a_wave.[ch].
+		* Auto trig w/ timeout on the oscilloscope.
+		* 8 & 16 bit mono + 16 bit stereo added.
+		* Engine code restructured and modularized.
+		* "Waveform Construction API" added.
+		* Channel->bus->master mixing architecture.
+		* FX plugin API added. (Internal, for now.)
+		* Reverb LPF cutoff made configurable and
+		  independent of the sample rate.
+	* Added generic "browsing" API to config_parser_t.
+	* Added a copy of LGPL 2.1, and started sorting out
+	  which licence applies where. (Basically, the old code
+	  is GPL, while most of the new code I've written from
+	  scratch is LGPL.)
+	* Added window_t::center_token[_fxp]() for nice columns.
+	* Started documenting a little...
+	* Added "Audio CPU Load" screen for gcc/x86. (Needs
+	  high resolution timestamping, and I'm using RDTSC for
+	  now.)
+	* Added text alignment system for the ct_* widgets, to
+	  make use of the new center_token() methods.
+	* Various tweaks and adjustments.
+	* Credits updated.
+
+Kobo Deluxe v0.4-pre5
+	* New versioning rules introduced;
+		* Any -preX suffix should *always* be included
+		  in AM_INIT_AUTOMAKE().
+		* No more development snapshots - every package
+		  released has a version number of it's own,
+		  with a -preX suffix if appropriate.
+	* Surface leak when reloading graphics fixed.
+	* gfxengine_t::unload() now takes -1 (default) for
+	  unloading all banks.
+	* gfxengine_t::unload() also destroys SoFont objects!
+	* Void pointer arithmetics and some bogus braces fixed.
+	  (Thanks, Riki!)
+	* Moved sound effects out into files. (Raw format for
+	  now, as WAV doesn't support signed 8 bit data...)
+	* Minor sound code cleanups.
+	* bgmfile.[ch] removed. (Used to be Linux only anyway...)
+	* config_parser_t created. (prefs_t is now derived from
+	  that class, and contains no parsing code whatsoever.)
+	  Also eliminates duplication of "command" decoding for
+	  non-config stuff like -showcfg, -debug and -fps.
+	* SDL_VIDEOEXPOSE is *finally* at least handled! :-)
+	* Removed gcc-only compiler flags and fixed other stuff
+	  that caused trouble with some compilers. (Thanks to
+	  Andreas Spångberg for the Solaris patch!)
+	* Menu and state code cleaned up a little.
+	* Configuration menu split up into Video, Audio,
+	  Controls and Game.
+	* ct_list_t now interprets change(0) (ie button press
+	  or similar) as change(1), rather than just ignoring
+	  it.
+
+Kobo Deluxe v0.4-pre4
+	* Replaced corrupted README.jp.
+	* Delayed fps printout to program exit, as some setups
+	  have serious trouble with output to the console while
+	  running the game.
+	* Fixed a sleeping bug in the gl_blendfunc() wrapper.
+	* It's now possible to quit gracefully while loading
+	  data. (Check when updating the progress bar.)
+	* Old style mouse control is back. (Not that I
+	  understand how anyone could play with that... :-)
+	* Bigger and more visible mouse crosshair.
+	* Added 'mouse' switch and 'mousemode' variable to
+	  config. (MMD_RELATIVE not yet implemented!)
+	* Video config cleaned up - unsupported OpenGL
+	  settings removed.
+	* Radar window code cleaned up and simplified.
+	* window_t::alloc_color renamed to map_rgb, which is
+	  more appropriate. The new version takes either three
+	  Uint8 components (rather than X style Uint16), or an
+	  Uint32 for "HTML style" hex codes.
+	* Diagonal rocket sprites lined up with diagonal Kobo
+	  (the player's ship! :-) sprites. (The ship has an
+	  offset of +1 pixel in y in the gfx)
+	* Added missing (8'th) frame to explosion animation.
+	* glSDL:
+		* Some tiling bugs fixed.
+		* Single tile case optimized.
+		* Vertical tiling implemented.
+		* Horizontal and vertical tiling across multiple
+		  textures implemented! (Not both h & v, though.)
+		* Off-screen blits are culled.
+	* Benchmark results:
+	     P-III 933, Matrox G400, XFree86 4.1.0-17mdk:
+		Resolution	SDL 2D	glSDL	ratio
+		-----------------------------------------------
+		1280x1024	16	60	3.8
+		960x720		28	102	3.6
+		640x480		62	202	3.3
+		320x240		227	205	0.9
+
+	  Note that OpenGL is pumping quite a bit more pixels
+	  than SDL's RLE blitter in this game, due to the alpha
+	  blended window frame. Here are the results with no
+	  frame:
+	     P-III 933, Matrox G400, XFree86 4.1.0-17mdk:
+		Resolution	SDL 2D	glSDL	ratio
+		-----------------------------------------------
+		1280x1024	18	93	5.2
+		960x720		32	163	5.1
+		640x480		70	205	2.9
+		320x240		256	205	0.8
+	  Notice how glSDL appears to win even more in higher
+	  resolutions, while it loses a little to SDL 2D in the
+	  low end, where fill rate becomes next to insignificant
+	  to OpenGL.
+
+Kobo Deluxe v0.4-pre3
+	* Hitting the window close button now causes a "brutal"
+	  quit, just like hitting ctrl-C in the console.
+	* Mac OS X OpenGL build script fix.
+	* Now uses SDL_opengl.h if present. (Dunno if the check
+	  is totally portable, though - but if it fail, at least
+	  things shouldn't be worse than with the old way.)
+	* Implemented tiling of wide surfaces.
+		* Does *not* support multiple textures, so it
+		  won't help with wide *and* tall surfaces, that
+		  simply won't fit in one texture. (Sorry,
+		  256x256 people! ;-)
+		* The rendering loop for tall surface tiling is
+		  missing... (Mostly a matter of cut'n'paste +
+		  search'n'replace.)
+		* Anyway, this means that Kobo Deluxe now
+		  RENDERS PERFECTLY ON OPENGL! :-)
+
+Kobo Deluxe v0.4-pre2
+	* The glSDL layer:
+		* Now uses handles instead of pointers!
+		* Various bugs and stability issues fixed.
+		--> Still misses vital features.
+		--> Leaks textures - or at least TexInfos.
+	* Some double buffer compatibility issues fixed.
+	* "Stall" when rebuilding menues fixed.
+
+Kobo Deluxe v0.4-pre1
+	* Build with OpenGL on X fixed - without breaking Win32
+	  and Mac OS X!
+	* Added dummy score file to keep stupid WinZip from
+	  removing 'scoredir'...
+	* Added README.jp translated by Tsuyoshi Iguchi (?).
+
+Kobo Deluxe v0.3
+	* Name officially changed to 'Kobo Deluxe'
+	* Upgraded to sfifo-1.2.
+	* Various configure script fixes.
+	* Added README file.
+	* Updated logo.
+	* Added filemapper_t, to handle paths on all platforms.
+	* Rearranged main loop to handle re-initialization.
+	* Fixed garbage after name in score files.
+	* Rearranged score management code slightly.
+	* Added prefs_t, which can parse, read and write options
+	  from/to command line args and files.
+	* Kobo now tries to save a backup of the user score file
+	  in the user's home dir.
+	* Cleaned up the game state system a bit, and added
+	  confirmation dialogs before aborting game or quitting
+	  Kobo.
+	* Added various eye candy.
+	* Added "Options" page.
+	* Class myship now releases the player ship object as well
+	  when turned off. (myship, and a bunch of other objects,
+	  won't be destroyed and re-created when reinitializing.)
+	* Moved graphics/ and audio/ from source to include path.
+	* Added sound effects to the user interface.
+	* Added Mac OS X fixes by Max Horn <max@quendi.de>
+	* Quits on window close event (Max Horn <max@quendi.de>)
+	* Paths for Mac OS X bundles added.
+	* Fixed +/- keys for selecting level. (Thanks Max!)
+	* Automatic timed logo/highscore switch added.
+	* Credits screen added.
+	* Simple scroll text added.
+	* Win32 and Mac OS X bundle install styles added.
+	* Added feedback delay based reverb with LP filters.
+	* Added limiter/AGC with threshold and release params.
+	* Joystick support; Samuel Hart <criswell@geekcomix.com>.
+	* Filter plugin support added to "sprite".
+	* Plugins added: rgb8, rgba8, cleanalpha, key2alpha, scale
+	  and displayformat.
+	* Implemented the "size" feature with three different
+	  scaling filter modes.
+	* Sprite and tile "palettes" separated for correct scaling.
+	* Added various "fade out" effects.
+	* Added "LOADING" screen.
+	* Added "Screen Buffer Mode" setting with single, double,
+	  semi triple and half buffering modes. (Note that the game
+	  doesn't yet support all of them properly.)
+	* Added FPS counter. (-fps switch)
+	* Progress bar while loading and converting data.
+	* gamestatemanager_t instead of those switch() statements...
+	* Added "Get Ready" and "Game Over" states.
+	* Improved filemapper_t and score_t portability. (I think...)
+	* Removed annoying key state clearing.
+	* SoFont:
+		* CleanSurface() now only cleans the top row.
+		* Fixed rounding when spacer width is odd.
+		* No testing of '|' (for cursor) if the font
+		  doesn't have it.
+	* CS engine:
+		* Freeing free objects won't crash the engine.
+		* Safer and (probably) faster wrapping code.
+	* "width" and "height" replace "size" option.
+	* Cleaned up config_form_t and added a "rebuild" action for
+	  dynamic configuration panels.
+	* Added config options and gfxengine_t::driver(). (No OpenGL
+	  code yet. OpenGL options hidden in "options".)
+	* Added a thin black border in windowed mode.
+	* Proper clipping done by window_t::invalidate() and
+	  gfxengine_t::invalidate().
+	* Sprite and text calls for fixed point coordinates added.
+	* Fixed gfxengine_t::loadrect() - it dropped the RLE!
+	* Added contrast and offset parameters to cleanalpha plugin.
+	* Audio engine:
+		* Added "nearest sample" resampling support.
+		* Improved sample looping accuracy.
+		* Added "samplerate" option.
+		* Random pitch effect on some sound effects.
+	* Improved pause mode. (Switches to "get ready".)
+	* BTN_FIRE can now be used to start game from intro.
+	* Cleanup + fix: SHIPS display is now updated correctly.
+	* Added quick hack OpenGL rendering layer. (64 bit broken!)
+	* "Escape" in pause mode now sends you to "Abort Game?".
+	* Added AdvanceMAME "Scale2x" scaling filter.
+	* Gave up on Scale2x + fuzziness factor - it just won't work
+	  for 256+ color graphics. (It's still there, though.)
+	* Added Diamond2x scaling filter - The Best so far! Also
+	  very fast, even without serious optimizations.
+	* Various scaling filter bug fixes and cleanups.
+	* C++ extension changed from '.C' to '.cpp'.
+	* Linux/i586/VGA vidsync hack removed.
+	* Added main menu with "Start Game!", "Options" etc.
+	* sprite.c: Size check for loading sprite palettes.
+	* Added rotating tube effect for menu highlighting.
+
+*** Name changed to "Kobo Deluxe".
+
+SKobo v0.2
+	* "sprite.c" now uses SDL_DisplayFormatAlpha().
+	* Various autoconf checks added and implemented.
+	* Audio ported to SDL. (OSS support remains.)
+	* "-latency XXX" argument to set maximum desired audio
+	  latency in milliseconds. Default is 50 ms.
+	* Added control API to audio engine. (Moved looping there.)
+	* Initial Win32 support:
+		* Hacked temporary kludge in score.C
+		* Added _snprintf define for snprintf()
+
+SKobo v0.1 update (forgot to mention this...)
+	* GIMPed new "Kobo Next Generation" logo.
+	* Added the display_t class, which inherits from window_t,
+	  and forms a display with a caption and text field.
+	* Added GIMPed framework for the whole screen.
+	* Re-implemented the "starfield" by grabbing 64 starry
+	  tiles from an XKobo screenshot.
+	* Centered radar screen vertically, moving "stage" and
+	  "ships" down below the radar screen.
+	* Added "HIGHSCORE" display.
+
+SKobo v0.1
+	* Removed all X specific code.
+	* Added graphics and control system code from Project Spitfire.
+	* Wrote gfxengine_t class. (Control system + video wrapper.)
+	* Rearranged source tree and switched to autoconf/automake.
+	* Wrote window_t class. (Clipping, scrolling etc.)
+	* Fixed some bugs in sprite.c and cs.c. (*heh*)
+	* Added text using the C++ version of SFont; SoFont.
+	* Changed audiodev_t to open in nonblocking mode, to avoid the
+	  game going to sleep if the device is busy. SKobo disables
+	  sound FX if the audio device cannot be opened.
+	* Pixeled new font and GIMPed a temorary logo.
+	* Added alpha blended frame with rounded corners.
+	* Added scrolling background (level 20) in intro mode.
+	* Selecting starting level now shows the selected level in
+	  the radar display and intro screen background.
+	* Enlarged the core diameter by two pixels.
+
+*** David Olofson <do@reologica.se> forks from 'V1.11+-do3', and
+    calls the new branch SKobo, with version numbers starting over
+    at 0.1.
+
+V1.11+-do3
+	* Cleaned up audio code and API.
+	* Added sample looping feature.
+	* Changed mixed fp/integer mixer into integer-only.
+	* Increased internal mixer level to avoid dropping bits.
+	* Fixed silly bug from -do2: The original sound was indeed
+	  in stereo! <:*)
+
+V1.11+-do2
+	* Adjusted sound effects reference level. (Louder sfx.)
+
+V1.11+-do1
+	* Ported sound to OSS
+	* Sound is enabled by default (use -nosound to disable)
+	* Made audio run asynchronously with lock-free command FIFO
+
+*** David Olofson <do@reologica.se> picks up XKobo 1.11+ from Izumo,
+    adding '-doX' to the version code.
+
+V1.11+
+	* SGI sound added.
+	* Triple size mode added.
+
+*** Masanao Izumo <mo@goice.co.jp> picks up XKobo 1.11, appending
+    '+' to the version code.
+
+V1.11
+	* ??
+
+V1.10
+	* fixed an endianness problem of score files
+	* secure score files
+
+V1.9
+	* take measure against system calls interrupted by SIGALRM
+	* '-hiscores' option
+	* bonus ships
+
+V1.8
+	* add close() in file.C
+
+V1.7
+	* enabled to move on diagonals using the numeric keypad
+
+V1.6
+	* support for Solaris 2
+
+V1.5
+	* ceased to use semaphores
+        * fixed a strange usage of setitimer
+        * '-wait' option
+
+V1.4
+	* '-cheat' option
+	* enabled to play using a mouse
+	* enabled to compile with gcc-2.7.0
+
+V1.3
+	* fixed a bug about '-fit' option
+	* enabled to select a stage to play
+
+V1.2
+	* support for TrueColor X server
+	* '-fit' option
+	* '-doublesize' option
+
+V1.1 
+	* first uploaded to tsx-11.mit.edu

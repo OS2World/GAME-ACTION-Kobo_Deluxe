@@ -1,0 +1,152 @@
+TODO:
+
+  Features:
+
+	* Update the demo songs. (Some sounds became to
+	  soft after adding envelopes; FX send levels and
+	  routing is screwed up etc...)
+
+	* Throw in some *real* music. (The demo songs don't
+	  really have anything to do with Kobo Deluxe. I
+	  was basically just testing things when developing
+	  the audio engine.)
+
+	* Implement "world snapshot" feature, to use for
+	  save game option, as well as internal temporary
+	  save game for changing video options in the
+	  middle of the game and the like. Needs to save
+	  score, lives etc, the current map, all objects,
+	  random number seed etc.
+
+	* Implement multiplayer modes. (Deathmatch and
+	  Cooperative, for starters.)
+
+	* Separate personal and global highscores. Where
+	  applicable, one could keep score for player/user,
+	  system local, local network and the internet,
+	  and/or maybe some kind user defined groups.
+
+	* New "Instructions" solution. (New state...?)
+
+	* Catch "frenetic hammering on ESC", and restore
+	  safe display settings.
+
+	* "Sloppy Refresh" hack to improve frame rate for
+	  sprites and base tiles, while reducing it for
+	  the starry background tiles.
+
+	* On targets with sync'ed flips, accept "close
+	  enough" refresh rates as time base, so that the
+	  video frame rate becomes an integer multiple of
+	  the engine frame rate. (Smoother scrolling.)
+
+	* Add native OpenGL support with sub-pixel accurate
+	  rendering to the Spitfire Engine.
+
+
+  Gameplay:
+
+	* "Milking" cores that fire enemies is a potential
+	  way of cheating for a higher score. Throw in an
+	  enemy_m* after some time as assassin to prevent
+	  this? (How to detect whether the player is doing
+	  something "sensible" or not...?)
+
+	  Trick suggested a nice and simple solution: Just
+	  lower the "price tag" on enemies spawned from
+	  nodes over time. No effect on gameplay, but if
+	  you fly around shooting defenseless enemies for
+	  too long, they'll eventually stop counting
+	  towards your score. The only remaining problem
+	  is figuring out when to start decreasing enemy
+	  scores, and how fast.
+
+	* I just faced a very nasty station on one of the
+	  first levels. Is it really a good idea to allow
+	  stations where you must fly into the base, taking
+	  two or three corners, to be able to shoot at the
+	  core? The station generator might need some
+	  tweaks... ("Don't put HARD ends on very long pipes
+	  on the easy levels." :-)
+
+
+  Internals & bugs:
+
+	* What actually happens when starting a new MIDI
+	  without manually stopping the playing MIDI? Either
+	  the MIDI player isn't stopped at all, or the patch
+	  plugins aren't allowed to clean up and release their
+	  voices...
+
+	* Health is restored when entering a new stage. Bug
+	  or feature? Doesn't affect classic single player,
+	  so I'm not doing anything about it right now.
+
+	* Add source info to "key" codes, to tell joystick
+	  input from keyboard and the like, when desired.
+
+	* How about supporting EEL scripting inside "Text"
+	  meta events of MIDI files...?
+
+	* Looks like my Matrox G400/XFree86 setup is somewhat
+	  broken. I know for sure it doesn't support OpenGL in
+	  24 or 32 bit mode - but it also looks like it's
+	  cheating when I try to give it 32 bit RGBA textures.
+	  24 bit RGB textures are accepted and dithered down to
+	  16 bits in real time just fine, but 32 bit RGBA is
+	  transparently converted into 4:4:4:4 RGBA, which
+	  looks like sh*t! Maybe I can get OpenGL to tell me
+	  when it happens, and then dither accordingly, just as
+	  in SDL 2D mode...? For now, I just include a manual
+	  switch in the graphics options, along with the
+	  dithering on/off switch.
+
+	* There is a surface leak somewhere... Track it down
+	  by adding a "backend status" call to glSDL, and
+	  check where more surfaces than intended are created.
+
+	* Use custom keyboard repeat code. Should be used
+	  for joystick events as well.
+
+	* Show a system dialog of some sort, instead of
+	  printing to stderr. (Critical errors only.)
+
+	* How to detect double buffering without h/w
+	  pageflipping? Breaks some stuff if it can't be
+	  detected. The main issue is with OpenGL, as we
+	  can't just check if "real" pageflipping or
+	  back->front blitting is used.
+
+	* Multiple keys and buttons bound to the same
+	  function results in up/down state confusion; if
+	  you release one of the keys, the "target" gets a
+	  release event, despite other keys with the same
+	  target being held down.
+
+	* Range checking on command line args and config.
+
+	* What's going on with the font X offset when
+	  scaling the graphics? (SFont bug, I think...)
+
+	* Remove either gamecontrol or gsm event pushing
+	  calls from skobo_gfxengine_t::frame(). Don't know
+	  which one, but it can't be right the way it is
+	  now...
+
+	* Rearrange the source tree so that all source is
+	  in an src subdir.
+
+	* Put README, COPYING etc in binary distros. (Done
+	  for Win32 "simple bundles".)
+
+	* Add CRC or simple "checksum" to score files, to
+	  prevent too easy modification. You must at least
+	  download the game source and hack it if you
+	  *really* want to cheat! ;-)
+
+	* filemapper_t should support different priorities
+	  for different operations. For example, it should
+	  be possible to search for a file in directories
+	  in one certain order, but try directories in a
+	  different order when trying to create a new
+	  instance of the file.

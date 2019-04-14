@@ -1,0 +1,32 @@
+/////////////////////////////////////////////
+// Ride 2
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 96000, 0;
+
+procedure cr(f, r)
+{
+	w_env FREQUENCY, f;
+	w_env MOD1, r;
+	w_env MOD2,
+			0,	1,
+			.5,	.95,
+			2,	.8;
+	w_osc target, SPECTRUM;
+}
+
+w_env LIMIT, 16000;
+w_env AMPLITUDE,
+		0,	.2,
+		.01,	.07,
+		1.19,	.025,
+		.8,	.01,
+		1,	0;
+
+cr 700, 1.05;
+cr 1000, 1.13;
+cr 1350, 1.3;
+cr 2222, 1.4;
+cr 3700, 1.5;

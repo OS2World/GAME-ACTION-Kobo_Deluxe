@@ -1,0 +1,28 @@
+/////////////////////////////////////////////
+// MIDI Song Loader for "ballad1.mid"
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+print "Loading \"Ballad1\"...\n";
+print "  Copyright (C) David Olofson, 2002.\n";
+
+// Load the MIDI file as the target waveform...
+w_load target, "ballad1.mid";
+p_param target, WAVE, target;
+p_param target, DRIVER, MIDI;
+
+// Sounds needed.
+w_load 63, "noiseburst2.agw";
+w_load 50, "snare1.agw";
+w_load 62, "noiseburst1.agw";
+w_load 56, "bassdrum3.agw";
+w_load 59, "bongo1.agw";
+w_load 16, "aguitar1.agw";
+w_load 73, "phattpad1.agw";
+w_load 20, "elecbass2.agw";
+w_load 74, "phattpad2.agw";
+w_load 87, "thunder1.agw";
+w_load 83, "marimba2.agw";
+w_load 84, "hardsync1.agw";
+
+print "  Done!\n";

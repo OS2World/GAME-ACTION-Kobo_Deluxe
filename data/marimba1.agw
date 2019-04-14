@@ -1,0 +1,22 @@
+/////////////////////////////////////////////
+// Marimba 1
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 64000, 0;
+
+w_env FREQUENCY, 261.625;
+w_env LIMIT, 15000;
+w_env AMPLITUDE,
+		0,	.75,
+		.1,	.23,
+		.9,	.05,
+		1,	0;
+w_env MOD1, 5;
+w_env MOD2,
+		0,	.3,
+		.05,	.1,
+		.3,	.05,
+		1.65,	0;
+w_osc target, ASPECTRUM;

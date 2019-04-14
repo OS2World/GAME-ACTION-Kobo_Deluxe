@@ -1,0 +1,44 @@
+/////////////////////////////////////////////
+// Snare Drum 2
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 32000, 0;
+
+w_env AMPLITUDE,
+		0,	.3,
+		.015,	.15,
+		.035,	.06,
+		.45,	.002,
+		.5,	0;
+w_env FREQUENCY, 0, 1200;
+w_osc target, NOISE;
+w_env FREQUENCY, 0, 5000;
+w_osc target, NOISE;
+w_env FREQUENCY, 0, 16000;
+w_osc target, NOISE;
+
+w_env AMPLITUDE, 0, 25;
+w_env FREQUENCY, 0, 200;
+w_filter target, PEAK_12;
+w_env AMPLITUDE, 0, 20;
+w_env FREQUENCY, 0, 270;
+w_filter target, PEAK_12;
+
+//reverberation shaper
+w_env AMPLITUDE, 0, 0;
+w_env MOD1,
+		0,	1,
+		.3,	.6,
+		.7,	.2;
+w_env FREQUENCY, 0, 2500;
+w_filter target, LOWPASS_12;
+
+//attack
+w_env AMPLITUDE, 0, 20;
+w_env FREQUENCY, 0, 1700;
+w_env MOD1,
+		0,	0,
+		.007,	1;
+w_filter target, PEAK_12;

@@ -1,0 +1,29 @@
+/////////////////////////////////////////////
+// Cymbal 2
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 32000;
+w_blank target, 96000, 0;
+
+procedure cr(r)
+{
+	w_env FREQUENCY, 1000 * r;
+	w_env MOD1, r;
+	w_env MOD2,
+			0,	.97,
+			.2,	.95,
+			2.8,	.6;
+	w_osc target, SPECTRUM;
+}
+
+w_env AMPLITUDE,
+		0,	.3,
+		.01,	.1,
+		.69,	.045,
+		.5,	.015,
+		1.8,	0;
+
+cr 1.05;
+cr 1.06;
+cr 1.08;

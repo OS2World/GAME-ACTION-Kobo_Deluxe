@@ -1,0 +1,49 @@
+/////////////////////////////////////////////
+// Noise Burst 3
+// Copyright (C) David Olofson, 2002
+/////////////////////////////////////////////
+
+w_format target, MONO16, 48000;
+w_blank target, 48000, 0;
+
+procedure cr()
+{
+	w_env AMPLITUDE, a;
+	w_env FREQUENCY, f;
+	w_osc target, TRIANGLE;
+	f = f * 1.05 + 7;
+}
+
+a = .05;
+f = 200;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+cr;
+
+w_env AMPLITUDE, 10;
+w_gain target;
+
+w_env FREQUENCY, 4000;
+w_env AMPLITUDE, 1;
+w_filter target, HIGHPASS_12;
+
+w_env AMPLITUDE, 10;
+w_gain target;
+
+w_env AMPLITUDE,
+		0,	1,
+		.01,	.4,
+		.09,	.2,
+		.9,	0;
+w_gain target;
+
+w_env FREQUENCY, 4500;
+w_env AMPLITUDE, 1;
+w_filter target, HIGHPASS_12;
